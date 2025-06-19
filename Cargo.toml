@@ -1,0 +1,45 @@
+[package]
+name = "idgen"
+version = "1.0.0"
+edition = "2024"
+authors = ["Eugene “Aeron” Glybin"]
+description = "A command-line utility to generate unique identifiers (UUID, ULID, ObjectId)."
+categories = ["command-line-utilities", "development-tools"]
+keywords = ["uuid", "ulid", "objectid", "unique", "identifier"]
+license = "ISC"
+readme = "README.md"
+repository = "https://github.com/Aeron/idgen"
+include = ["src/**/*", "LICENSE", "README.md"]
+
+[dependencies]
+anyhow = { version = "1.0.98" }
+clap = { version = "4.5", features = ["derive", "wrap_help", "cargo"] }
+rand = { version = "0.9.1" }
+eui48 = { version = "1.1" }
+hex = { version = "0.4.3" }
+uuid = { version = "1.17", features = [
+    "v1",
+    "v3",
+    "v4",
+    "v5",
+    "v6",
+    "v7",
+    "v8",
+    "fast-rng",
+] }
+bson = { version = "2.15" }
+ulid = { version = "1.2.1" }
+
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.0"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+opt-level = "z"
+
+[[bin]]
+name = "idgen"
+path = "src/main.rs"
