@@ -31,34 +31,34 @@ So, here’s my take on a single utility to cover all those cases.
 [ulid-lite]: https://github.com/timclicks/ulid-lite
 [ulid-go]: https://github.com/technosophos/ulid
 
-## Installation
+## Usage
 
-### From Source
+IdGen is available as stand-alone binaries, a Cargo package, and a container image.
 
-Clone the repository and build with Cargo:
+Binaries can be found on the repo’s [releases page][releases]. If there’s no platform
+you’re looking for, you can compile an appropriate binary yourself. Or feel free to
+create [a PR][pulls] or [an issue][issues].
 
-```sh
-git clone https://github.com/yourusername/idgen.git
-cd idgen
-cargo build --release
-```
-
-The binary will be available at `target/release/idgen`. You can copy it to a directory
-in your `PATH`:
-
-```sh
-cp target/release/idgen /usr/local/bin/
-```
-
-### Using Cargo
-
-If the crate is published to crates.io:
+Cargo package can be installed as usually:
 
 ```sh
 cargo install idgen
 ```
 
-## Usage
+The container image is available as [`docker.io/aeron/idgen`][docker] and
+[`ghcr.io/Aeron/idgen`][github]. You can use them both interchangeably.
+
+```sh
+docker pull docker.io/aeron/idgen
+# …or…
+docker pull ghcr.io/aeron/idgen
+```
+
+[releases]: https://github.com/Aeron/idgen/releases
+[pulls]: https://github.com/Aeron/idgen/pulls
+[issues]: https://github.com/Aeron/idgen/issues
+[docker]: https://hub.docker.com/r/aeron/idgen
+[github]: https://github.com/Aeron/idgen/pkgs/container/idgen
 
 ### Arguments
 
