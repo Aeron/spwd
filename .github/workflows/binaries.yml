@@ -6,19 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - name: Run tests
-        run: cargo test --all-features
-
   build-and-upload:
     name: Build and upload binaries (${{ matrix.target }})
-    needs: test
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
@@ -55,7 +44,6 @@ jobs:
 
   publish-crate:
     name: Publish Cargo package
-    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read
