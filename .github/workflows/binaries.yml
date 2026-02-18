@@ -47,7 +47,7 @@ jobs:
       - name: Upload binaries to release
         uses: taiki-e/upload-rust-binary-action@v1
         with:
-          bin: idgen
+          bin: spwd
           checksum: sha256
           target: ${{ matrix.target }}
           token: ${{ secrets.GITHUB_TOKEN }}

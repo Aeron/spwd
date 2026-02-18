@@ -1,21 +1,24 @@
-# IdGen
+# Spew Id
 
 It’s a command-line utility to generate unique identifiers (UUID, ULID, ObjectId)
 written in Rust.
+
+The executable name is `spwd`, which is a vowelless continuous writing of “spew id” —
+easy to remember and quick to type.
 
 ## Motivation
 
 Sometimes I just need a random identifier, sometimes not so random. Sometimes it’s an
 ObjectId, yet sometimes it’s a UUID v7. Sometimes I need ten of those. And what is the
 simplest and fastest way to get one? Is it REPL, web search, or a terminal? Probably
-the latter. Especially, if I want it in my shell scipts. But what options do I have?
+the latter. Especially if I want it in my shell scripts. But what options do I have?
 
 For UUID, it’s the standard `uuidgen`. How standard? Well, the macOS version is quite
 limited. And `brew search uuid` gives me one other option from 2008. Can I build the
 Linux version of `uuidgen`? Sure. Do I want to do it? Not really.
 
 For ULID, there’re no standard options, and `brew search ulid` gives nothing useful.
-There a few options in the wilds, like [`timclicks/ulid-lite`][ulid-lite] and
+There are a few options in the wilds, like [`timclicks/ulid-lite`][ulid-lite] and
 [`technosophos/ulid`][ulid-go], but nothing I can simply `brew install`.
 
 For ObjectId, which is my favorite, there’s nothing. Nope, I’m not counting anything
@@ -26,46 +29,58 @@ As for an option that covers all three, I never found one. So, it turns out, the
 simplest way right now is to use web search or the online tools I found earlier. And
 that’s quite sad.
 
-So, here’s my take on a single utility to cover all those cases.
+**UPD**: Later I found various implementations among [crates.io][crates-io] packages
+but none of those ticked all my boxes and were available through Homebrew.
+
+So, here’s my take on a single utility — a one-stop shop if you like — to cover all
+those cases.
 
 [ulid-lite]: https://github.com/timclicks/ulid-lite
 [ulid-go]: https://github.com/technosophos/ulid
+[crates-io]: https://crates.io
 
 ## Usage
 
-IdGen is available as stand-alone binaries, a Cargo package, and a container image.
+The `spwd` is available as stand-alone binaries, Cargo and Homebrew packages, and a
+container image.
 
 Binaries can be found on the repo’s [releases page][releases]. If there’s no platform
 you’re looking for, you can compile an appropriate binary yourself. Or feel free to
 create [a PR][pulls] or [an issue][issues].
 
-Cargo package can be installed as usually:
+The Cargo package can be installed as usually:
 
 ```sh
-cargo install idgen
+cargo install spwd
 ```
 
-The container image is available as [`docker.io/aeron/idgen`][docker] and
-[`ghcr.io/Aeron/idgen`][github]. You can use them both interchangeably.
+The Homebrew package can be obtained through the tap:
 
 ```sh
-docker pull docker.io/aeron/idgen
+brew install aeron/tap/swpd
+```
+
+The container image is available as [`docker.io/aeron/spwd`][docker] and
+[`ghcr.io/Aeron/spwd`][github]. You can use them both interchangeably.
+
+```sh
+docker pull docker.io/aeron/spwd
 # …or…
-docker pull ghcr.io/aeron/idgen
+docker pull ghcr.io/aeron/spwd
 ```
 
-[releases]: https://github.com/Aeron/idgen/releases
-[pulls]: https://github.com/Aeron/idgen/pulls
-[issues]: https://github.com/Aeron/idgen/issues
-[docker]: https://hub.docker.com/r/aeron/idgen
-[github]: https://github.com/Aeron/idgen/pkgs/container/idgen
+[releases]: https://github.com/Aeron/spwd/releases
+[pulls]: https://github.com/Aeron/spwd/pulls
+[issues]: https://github.com/Aeron/spwd/issues
+[docker]: https://hub.docker.com/r/aeron/spwd
+[github]: https://github.com/Aeron/spwd/pkgs/container/spwd
 
 ### Arguments
 
 Running the app with `-h` or `--help` option will give you the following:
 
 ```text
-Usage: idgen [OPTIONS] <COMMAND>
+Usage: spwd [OPTIONS] <COMMAND>
 
 Commands:
   uuid  Generate a new UUID
@@ -88,9 +103,9 @@ In case the performance is a consideration, here are the benchmarks against the 
 `uuidgen` utility (macOS 26.3 @ Apple M1 Max):
 
 ```sh
-$ hyperfine --warmup 10 -N 'target/release/idgen uuid' 'uuidgen'
+$ hyperfine --warmup 10 -N 'target/release/spwd uuid' 'uuidgen'
 
-Benchmark 1: target/release/idgen uuid
+Benchmark 1: target/release/spwd uuid
   Time (mean ± σ):       1.7 ms ±   0.1 ms    [User: 0.8 ms, System: 0.5 ms]
   Range (min … max):     1.5 ms …   3.1 ms    1528 runs
 
@@ -99,7 +114,7 @@ Benchmark 2: uuidgen
   Range (min … max):     2.3 ms …   3.2 ms    1218 runs
 
 Summary
-  target/release/idgen uuid ran
+  target/release/spwd uuid ran
     1.52 ± 0.15 times faster than uuidgen
 ```
 

@@ -3,7 +3,7 @@ use predicates::prelude::*;
 
 #[test]
 fn test_uuid_v1() {
-    cargo_bin_cmd!("idgen")
+    cargo_bin_cmd!()
         .args(["uuid", "-v", "1"])
         .assert()
         .success()

@@ -16,9 +16,9 @@ RUN cargo build \
 # Runtime stage
 FROM scratch
 
-LABEL org.opencontainers.image.source="https://github.com/aeron/idgen"
+LABEL org.opencontainers.image.source="https://github.com/aeron/spwd"
 LABEL org.opencontainers.image.licenses="ISC"
 
-COPY --from=builder /usr/src/app/target/*/release/idgen .
+COPY --from=builder /usr/src/app/target/*/release/spwd .
 
-ENTRYPOINT ["/idgen"]
+ENTRYPOINT ["/spwd"]

@@ -13,8 +13,8 @@ jobs:
       packages: write
       contents: read
     env:
-      GITHUB_REGISTRY_IMAGE: ghcr.io/${{ github.repository_owner }}/idgen
-      DOCKER_REGISTRY_IMAGE: docker.io/aeron/idgen
+      GITHUB_REGISTRY_IMAGE: ghcr.io/${{ github.repository_owner }}/spwd
+      DOCKER_REGISTRY_IMAGE: docker.io/aeron/spwd
     steps:
       - uses: actions/checkout@v6
       - id: recase
@@ -57,5 +57,5 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: aeron/idgen
+          repository: aeron/spwd
         continue-on-error: true

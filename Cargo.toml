@@ -1,5 +1,5 @@
 [package]
-name = "idgen"
+name = "spwd"
 version = "1.0.0"
 edition = "2024"
 authors = ["Eugene “Aeron” Glybin"]
@@ -8,7 +8,7 @@ categories = ["command-line-utilities", "development-tools"]
 keywords = ["uuid", "ulid", "objectid", "unique", "identifier"]
 license = "ISC"
 readme = "README.md"
-repository = "https://github.com/Aeron/idgen"
+repository = "https://github.com/Aeron/spwd"
 include = ["src/**/*", "LICENSE", "README.md"]
 
 [dependencies]
@@ -41,5 +41,5 @@ strip = true
 opt-level = "z"
 
 [[bin]]
-name = "idgen"
+name = "spwd"
 path = "src/main.rs"

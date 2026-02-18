@@ -1,4 +1,4 @@
-//! IdGen - A command-line utility for generating unique identifiers.
+//! spwd - A command-line utility for generating unique identifiers.
 //!
 //! This application generates various types of unique identifiers (UUIDs, ULIDs, ObjectIds)
 //! with configurable parameters. It's designed as a standalone CLI tool for use in shell
