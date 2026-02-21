@@ -97,6 +97,41 @@ Simply run `--help` for a certain command to see command-specific options.
 
 For usage examples, see [USAGE.md](USAGE.md).
 
+### Identifiers
+
+#### UUID
+
+UUID (Universally Unique Identifier) supports versions 1, 3, 4, 5, 6, 7, and 8. Version
+4 (random) is the default.
+
+| Version | Algorithm | Extra Options |
+|---------|-----------|---------------|
+| 1 | Time-based, MAC address node | `--timestamp` (ns), `--node-id` |
+| 3 | Name-based, MD5 | `--namespace`, `--name` (both required) |
+| 4 | Random (default) | — |
+| 5 | Name-based, SHA-1 | `--namespace`, `--name` (both required) |
+| 6 | Reordered time-based, sortable | `--timestamp` (ns), `--node-id` |
+| 7 | Unix Epoch time-based, sortable | `--timestamp` (ns) |
+| 8 | Custom | `--data` (hex-encoded 16 bytes, required) |
+
+Supported namespaces for versions 3 and 5: `dns`, `oid`, `url`, `x500`.
+
+#### ULID
+
+ULID (Universally Unique Lexicographically Sortable Identifier) is a 26-character,
+Crockford Base32-encoded identifier composed of a 48-bit millisecond timestamp and 80
+bits of randomness. It is always monotonically sortable.
+
+Accepts an optional `--timestamp` in milliseconds.
+
+#### ObjectId
+
+ObjectId is a 12-byte (24 hex character) MongoDB/BSON identifier composed of a 4-byte
+Unix timestamp, a 5-byte random value, and a 3-byte incrementing counter.
+
+Available via both `oid` and `objectid` commands. Accepts an optional `--timestamp` in
+seconds.
+
 ## Performance
 
 In case the performance is a consideration, here are the benchmarks against the standard
