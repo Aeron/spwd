@@ -2,7 +2,8 @@ name: Release Draft
 
 on:
   push:
-    branches: [main]
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 permissions:
   contents: write
@@ -19,7 +20,19 @@ jobs:
         with:
           file: Cargo.toml
           field: package.version
+      - name: Compare tag and version
+        id: check_version
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${{ steps.get_version.outputs.value }}"
+          if [ "$TAG" = "$VERSION" ]; then
+            echo "match=true" >> $GITHUB_OUTPUT
+          else
+            echo "match=false" >> $GITHUB_OUTPUT
+            echo "Tag ($TAG) does not match Cargo.toml version ($VERSION), skipping release."
+          fi
       - name: Create release draft
+        if: steps.check_version.outputs.match == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
