@@ -57,7 +57,7 @@ cargo install spwd
 The Homebrew package can be obtained through the tap:
 
 ```sh
-brew install aeron/tap/swpd
+brew install aeron/tap/spwd
 ```
 
 The container image is available as [`docker.io/aeron/spwd`][docker] and
