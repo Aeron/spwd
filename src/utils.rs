@@ -36,7 +36,7 @@ pub(crate) fn parse_timestamp_ns(value: &str) -> anyhow::Result<(u64, u32)> {
             match (sec_result, nano_result) {
                 (Ok(s), Ok(n)) => Ok((s, n)),
                 _ => Err(anyhow!(
-                    "timestamp must be a valid non-negative integer between 0 and {MAX_SECONDS}{MAX_NANOSECONDS}"
+                    "timestamp out of range: max is {MAX_SECONDS} seconds and {MAX_NANOSECONDS} nanoseconds"
                 )),
             }
         }
@@ -134,7 +134,7 @@ mod tests {
         assert!(result.is_err());
         assert_eq!(
             result.unwrap_err().root_cause().to_string(),
-            "timestamp must be a valid non-negative integer between 0 and 18446744073709551615999999999"
+            "timestamp out of range: max is 18446744073709551615 seconds and 999999999 nanoseconds"
         );
     }
 

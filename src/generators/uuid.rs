@@ -112,7 +112,7 @@ impl UuidGenerator {
         version: SupportedUUIDVersion,
         timestamp: Option<(u64, u32)>,
         namespace: Option<&SupportedUUIDNamespace>,
-        name: Option<&String>,
+        name: Option<&str>,
         node_id: Option<&eui48::MacAddress>,
         data: Option<&[u8; 16]>,
     ) -> Self {
@@ -140,8 +140,13 @@ impl Generate for UuidGenerator {
     fn generate(&self) -> String {
         match self {
             UuidGenerator::V1 { node_id, timestamp } => match timestamp {
+                // Using a random clock sequence so repeated fixed-timestamp generations stay distinct
                 Some((seconds, subsec_nanos)) => uuid::Uuid::new_v1(
-                    uuid::Timestamp::from_unix(uuid::Context::new(0), *seconds, *subsec_nanos),
+                    uuid::Timestamp::from_unix(
+                        uuid::Context::new_random(),
+                        *seconds,
+                        *subsec_nanos,
+                    ),
                     node_id,
                 )
                 .to_string(),
@@ -272,6 +277,20 @@ mod tests {
 
         let uuid_str = generator.generate();
         assert_uuid_format(&uuid_str, 1);
+    }
+
+    #[test]
+    fn test_v1_fixed_timestamp_is_distinct() {
+        let generator = UuidGenerator::new_v1(None, Some((1234567890, 0)));
+
+        // Generating with a pinned timestamp must still vary the clock sequence
+        let ids: std::collections::HashSet<String> =
+            (0..16).map(|_| generator.generate()).collect();
+
+        assert!(
+            ids.len() > 1,
+            "fixed-timestamp v1 must not be all identical"
+        );
     }
 
     #[test]
@@ -463,7 +482,7 @@ mod tests {
             SupportedUUIDVersion::V3,
             None,
             Some(&namespace),
-            Some(&name),
+            Some(name.as_str()),
             None,
             None,
         );
@@ -500,7 +519,7 @@ mod tests {
             SupportedUUIDVersion::V5,
             None,
             Some(&namespace),
-            Some(&name),
+            Some(name.as_str()),
             None,
             None,
         );

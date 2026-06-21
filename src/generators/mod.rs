@@ -75,7 +75,7 @@ impl From<&Commands> for Generator {
                 *version,
                 *timestamp,
                 namespace.as_ref(),
-                name.as_ref(),
+                name.as_deref(),
                 node_id.as_ref(),
                 data.as_ref(),
             )),

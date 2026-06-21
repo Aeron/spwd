@@ -33,7 +33,7 @@ use crate::utils;
     name = crate_name!(),
     version = crate_version!(),
     about = crate_description!(),
-    disable_help_subcommand=true,
+    disable_help_subcommand = true,
 )]
 pub(crate) struct Args {
     #[command(subcommand)]

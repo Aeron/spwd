@@ -39,13 +39,16 @@ fn main() -> anyhow::Result<()> {
     // Creating an appropriate generator from the command
     let generator = Generator::from(&args.command);
 
-    // Locking stdout for efficient buffered writing
-    let mut stdout = io::stdout().lock();
+    // Wrapping the locked stdout so bulk output is batched instead of flushed per line
+    let mut stdout = io::BufWriter::new(io::stdout().lock());
 
     // Running it as many times as specified
     for _ in 0..args.number {
         writeln!(stdout, "{}", generator.generate())?;
     }
+
+    // Flushing explicitly to surface any write error instead of swallowing it on drop
+    stdout.flush()?;
 
     Ok(())
 }

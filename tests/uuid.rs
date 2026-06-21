@@ -231,6 +231,35 @@ fn test_uuid_v1_with_timestamp() {
 }
 
 #[test]
+fn test_uuid_v1_fixed_timestamp_distinct() {
+    let output = cargo_bin_cmd!()
+        .args([
+            "-n",
+            "8",
+            "uuid",
+            "-v",
+            "1",
+            "--timestamp",
+            "1234567890000000000",
+        ])
+        .output()
+        .unwrap();
+
+    assert!(output.status.success());
+
+    let stdout = String::from_utf8(output.stdout).unwrap();
+    let lines: Vec<&str> = stdout.lines().collect();
+    assert_eq!(lines.len(), 8);
+
+    // The clock sequence must vary so a pinned timestamp does not collapse to one identifier
+    let unique: std::collections::HashSet<&str> = lines.iter().copied().collect();
+    assert!(
+        unique.len() > 1,
+        "fixed-timestamp v1 must not be all identical"
+    );
+}
+
+#[test]
 fn test_uuid_v6_with_timestamp() {
     cargo_bin_cmd!()
         .args(["uuid", "-v", "6", "--timestamp", "1234567890000000000"])
